@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 // Routes
-// app.use('/', userRouter);
+app.use('/', userRouter);
 app.use('/buckets', fileRouter);
 
 module.exports = app;
