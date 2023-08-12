@@ -5,7 +5,6 @@ const { Schema } = mongoose;
 const userSchema = new Schema(
   {
     name: String,
-    email: String,
     apiKey: String,
   },
   { timestamps: true },
