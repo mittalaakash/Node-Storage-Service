@@ -20,7 +20,7 @@ exports.upload = () => {
       },
     }),
     limits: {
-      fileSize: 1024 * 1024 * 50,
+      fileSize: 1024 * 1024 * 5,
     },
     fileFilter: (req, file, cb) => {
       cb(null, true);
