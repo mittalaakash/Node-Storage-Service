@@ -50,7 +50,7 @@ exports.getFilesFromBucket = catchAsync(async (req, res, next) => {
       const filesOnly = await Promise.all(
         files.map(async file => {
           const stats = await fs.stat(`${bucketPath}/${file}`);
-          stats.isFile() ? file : null;
+          return stats.isFile() ? file : null;
         }),
       );
       const filteredFiles = filesOnly.filter(file => file !== null);
