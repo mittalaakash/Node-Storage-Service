@@ -4,8 +4,9 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
 
-const userRouter = require('./routes/userRoutes');
+// const userRouter = require('./routes/userRoutes');
 const fileRouter = require('./routes/fileRoutes');
+const AppError = require('./utils/appError');
 
 const app = express();
 
@@ -15,10 +16,27 @@ app.use(helmet());
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
+// app.use(express.static('public'));
 
 // Routes
-app.use('/', userRouter);
+// app.use('/', userRouter);
 app.use('/buckets', fileRouter);
+
+app.all('*', (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
+
+//global error hadnler
+app.use((err, req, res, next) => {
+  err.statusCode = err.statusCode || 500;
+  err.status = err.status || 'error';
+
+  res.status(err.statusCode).json({
+    status: err.status,
+    error: err,
+    message: err.message,
+    stack: err.stack,
+  });
+});
 
 module.exports = app;

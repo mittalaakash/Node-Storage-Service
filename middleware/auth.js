@@ -1,25 +1,19 @@
 const userModel = require('../model/UserModel');
+const users = require('../data/users.json');
 
 exports.authMiddleware = async (req, res, next) => {
-  try {
-    console.log(req.headers);
-    const apiKey = req.headers?.['x-api-key'];
-    if (!apiKey) {
-      return res.status(401).json({
-        message: 'Unauthorized',
-      });
-    }
-    const user = await userModel.findOne({
-      apiKey,
+  const apiKey = req.headers?.['x-api-key'];
+  if (!apiKey) {
+    return res.status(401).json({
+      message: 'Unauthorized',
     });
-    if (!user) {
-      return res.status(401).json({
-        message: 'Unauthorized',
-      });
-    }
-    req.user = user;
-    next();
-  } catch (error) {
-    console.log(error);
   }
+  const user = users.some(user => user.apiKey === apiKey);
+  if (!user) {
+    return res.status(401).json({
+      message: 'Unauthorized',
+    });
+  }
+  req.user = user;
+  next();
 };
