@@ -10,16 +10,17 @@ router.use(authMiddleware);
 //get all buckets
 router.get('/', fileController.getAllBuckets);
 
-router.use(checkBucketAccess);
 //upload file to bucket
-router
-  .post(
-    '/:bucketName',
-    upload().single('file'),
-    fileController.uploadFileToBucket,
-  )
-  //get files from bucket
-  .get('/:bucketName', fileController.getFilesFromBucket);
+router.post(
+  '/:bucketName',
+  upload().single('file'),
+  fileController.uploadFileToBucket,
+);
+
+router.use(checkBucketAccess);
+
+//get files from bucket
+router.get('/:bucketName', fileController.getFilesFromBucket);
 
 //download file from bucket
 router
