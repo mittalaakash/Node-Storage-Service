@@ -1,7 +1,7 @@
 const fs = require('fs/promises');
 const path = require('path');
 const multer = require('multer');
-const { pathCheck } = require('../Utils/pathCheck');
+const { pathCheck } = require('../Utils/PathCheck');
 
 exports.upload = () => {
   return (imageUpload = multer({

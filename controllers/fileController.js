@@ -1,9 +1,9 @@
 const fs = require('fs/promises');
 fs.createReadStream = require('fs').createReadStream;
 
-const catchAsync = require('../Utils/catchAsync');
-const AppError = require('../Utils/appError');
-const { pathCheck } = require('../Utils/pathCheck');
+const catchAsync = require('../Utils/CatchAsync');
+const AppError = require('../Utils/AppError');
+const { pathCheck } = require('../Utils/PathCheck');
 const { path } = require('../app');
 
 exports.getAllBuckets = catchAsync(async (req, res) => {

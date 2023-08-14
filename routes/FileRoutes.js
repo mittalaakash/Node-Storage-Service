@@ -1,8 +1,8 @@
 const router = require('express').Router();
 
-const { authMiddleware } = require('../Middleware/auth');
-const { upload } = require('../Middleware/fileHandler.js');
-const fileController = require('../Controllers/fileController.js');
+const { authMiddleware } = require('../Middleware/Auth');
+const { upload } = require('../Middleware/FileHandler.js');
+const fileController = require('../Controllers/FileController.js');
 
 router.use(authMiddleware);
 
