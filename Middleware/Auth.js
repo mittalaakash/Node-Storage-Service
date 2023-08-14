@@ -1,5 +1,5 @@
 const userModel = require('../Model/UserModel');
-const users = require('../data/users.json');
+const users = require('../Data/Users.json');
 
 exports.authMiddleware = async (req, res, next) => {
   const apiKey = req.headers?.['x-api-key'];
