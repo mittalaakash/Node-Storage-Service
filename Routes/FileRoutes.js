@@ -3,12 +3,14 @@ const router = require('express').Router();
 const { authMiddleware } = require('../Middleware/Auth');
 const { upload } = require('../Middleware/FileHandler.js');
 const fileController = require('../Controllers/FileController.js');
+const checkBucketAccess = require('../Middleware/BucketAccess');
 
 router.use(authMiddleware);
 
 //get all buckets
 router.get('/', fileController.getAllBuckets);
 
+router.use(checkBucketAccess);
 //upload file to bucket
 router
   .post(

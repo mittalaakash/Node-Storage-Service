@@ -1,21 +1,36 @@
 const fs = require('fs/promises');
 const path = require('path');
 const multer = require('multer');
+
+const Bucket = require('../Model/BucketModel');
 const { pathCheck } = require('../Utils/PathCheck');
 
 exports.upload = () => {
   return (imageUpload = multer({
     storage: multer.diskStorage({
       destination: async (req, file, cb) => {
-        const bucketName = req.params.bucketName;
+        const bucketName = req.params.bucketName.trim();
+        const userId = req.user.id;
         const dir = `./Buckets/${bucketName}`;
 
-        let pathExists = await pathCheck(dir);
+        const existingBucket = await Bucket.findOne({ name: bucketName });
+        if (existingBucket) {
+          if (!existingBucket?.user.equals(userId)) {
+            throw new Error('Bucket name already exists for another user');
+          }
+        } else {
+          let pathExists = await pathCheck(dir);
 
-        if (!pathExists) {
-          await fs.mkdir(dir, { recursive: true });
+          if (!pathExists) {
+            await fs.mkdir(dir, { recursive: true });
+
+            const newBucket = new Bucket({
+              name: bucketName,
+              user: userId,
+            });
+            await newBucket.save();
+          }
         }
-
         cb(null, dir);
       },
       filename: function (req, file, cb) {

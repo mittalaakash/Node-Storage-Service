@@ -1,25 +1,31 @@
 const fs = require('fs/promises');
 fs.createReadStream = require('fs').createReadStream;
+const Bucket = require('../Model/BucketModel');
 
 const catchAsync = require('../Utils/CatchAsync');
 const AppError = require('../Utils/AppError');
 const { pathCheck } = require('../Utils/PathCheck');
-const { path } = require('../app');
 
 exports.getAllBuckets = catchAsync(async (req, res) => {
-  const bucketContent = await fs.readdir('./Buckets');
+  // const bucketContent = await fs.readdir('./Buckets');
 
-  const buckets = await Promise.all(
-    bucketContent.map(async bucket => {
-      const stats = await fs.stat(`./Buckets/${bucket}`);
-      return stats.isDirectory() ? bucket : null;
-    }),
-  );
-  const filteredBuckets = buckets.filter(bucket => bucket !== null);
+  // const buckets = await Promise.all(
+  //   bucketContent.map(async bucket => {
+  //     const stats = await fs.stat(`./Buckets/${bucket}`);
+  //     return stats.isDirectory() ? bucket : null;
+  //   }),
+  // );
+  // const bucketNames = buckets.filter(bucket => bucket !== null);
+
+  const userId = req.user.id;
+
+  const userBuckets = await Bucket.find({ user: userId });
+
+  const bucketNames = userBuckets.map(bucket => bucket.name);
 
   return res.status(200).json({
     message: 'Buckets fetched',
-    data: filteredBuckets,
+    data: bucketNames,
   });
 });
 

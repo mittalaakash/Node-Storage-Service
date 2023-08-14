@@ -1,20 +1,20 @@
-const db = require('../config/db');
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const userModel = require('./UserModel');
 
 const fileSchema = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
-      ref: userModel.modelName,
+      ref: 'User',
     },
-    fileName: String,
-    mimeType: String,
-    path: String,
+    bucketId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Bucket',
+    },
+    name: String,
+    size: Number,
   },
   { timestamps: true },
 );
 
-const fileModel = db.model('files', fileSchema);
-module.exports = fileModel;
+module.exports = mongoose.model('File', fileSchema);
