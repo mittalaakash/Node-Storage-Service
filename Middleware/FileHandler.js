@@ -16,7 +16,7 @@ exports.upload = () => {
         const existingBucket = await Bucket.findOne({ name: bucketName });
         if (existingBucket) {
           if (!existingBucket?.user.equals(userId)) {
-            throw new Error('Bucket name already exists for another user');
+            cb(null, 'Bucket name already exists for another user');
           }
         } else {
           let pathExists = await pathCheck(dir);
