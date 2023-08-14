@@ -103,6 +103,7 @@ exports.deleteFile = catchAsync(async (req, res, next) => {
   if (!pathExists) {
     return res.json({ status: true, message: 'File not found' });
   }
+
   await fs.unlink(filePath);
   return res.json({ status: true, message: 'File deleted successfully!!' });
 });

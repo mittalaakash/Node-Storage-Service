@@ -14,6 +14,7 @@ exports.authMiddleware = async (req, res, next) => {
       message: 'Unauthorized',
     });
   }
+
   req.user = user;
   next();
 };
