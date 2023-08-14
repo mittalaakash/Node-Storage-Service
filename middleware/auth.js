@@ -1,4 +1,4 @@
-const userModel = require('../model/UserModel');
+const userModel = require('../Model/UserModel');
 const users = require('../data/users.json');
 
 exports.authMiddleware = async (req, res, next) => {

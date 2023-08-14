@@ -1,14 +1,14 @@
 const fs = require('fs/promises');
 const path = require('path');
 const multer = require('multer');
-const { pathCheck } = require('../utils/pathCheck');
+const { pathCheck } = require('../Utils/pathCheck');
 
 exports.upload = () => {
   return (imageUpload = multer({
     storage: multer.diskStorage({
       destination: async (req, file, cb) => {
         const bucketName = req.params.bucketName;
-        const dir = `./buckets/${bucketName}`;
+        const dir = `./Buckets/${bucketName}`;
 
         let pathExists = await pathCheck(dir);
 

@@ -1,4 +1,4 @@
-const db = require('../config/db');
+const db = require('../Config/db');
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 

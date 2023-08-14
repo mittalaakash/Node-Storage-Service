@@ -5,8 +5,8 @@ const helmet = require('helmet');
 const cors = require('cors');
 
 // const userRouter = require('./routes/userRoutes');
-const fileRouter = require('./routes/fileRoutes');
-const AppError = require('./utils/appError');
+const fileRouter = require('./Routes/fileRoutes');
+const AppError = require('./Utils/appError');
 
 const app = express();
 

@@ -1,17 +1,17 @@
 const fs = require('fs/promises');
 fs.createReadStream = require('fs').createReadStream;
 
-const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/appError');
-const { pathCheck } = require('../utils/pathCheck');
+const catchAsync = require('../Utils/catchAsync');
+const AppError = require('../Utils/appError');
+const { pathCheck } = require('../Utils/pathCheck');
 const { path } = require('../app');
 
 exports.getAllBuckets = catchAsync(async (req, res) => {
-  const bucketContent = await fs.readdir('./buckets');
+  const bucketContent = await fs.readdir('./Buckets');
 
   const buckets = await Promise.all(
     bucketContent.map(async bucket => {
-      const stats = await fs.stat(`./buckets/${bucket}`);
+      const stats = await fs.stat(`./Buckets/${bucket}`);
       return stats.isDirectory() ? bucket : null;
     }),
   );
@@ -41,7 +41,7 @@ exports.getFilesFromBucket = catchAsync(async (req, res, next) => {
     return next(new AppError('Please provide a bucketName', 404));
   }
 
-  const bucketPath = `./buckets/${bucketName.trim()}`;
+  const bucketPath = `./Buckets/${bucketName.trim()}`;
   let pathExists = await pathCheck(bucketPath);
 
   if (pathExists) {
@@ -71,7 +71,7 @@ exports.downloadFile = catchAsync(async (req, res, next) => {
     return next(new AppError('Please provide a bucketName and fileName', 404));
   }
 
-  const bucketPath = `./buckets/${bucketName.trim()}`;
+  const bucketPath = `./Buckets/${bucketName.trim()}`;
   const filePath = bucketPath + '/' + fileName.trim();
   let pathExists = await pathCheck(bucketPath);
 
@@ -95,7 +95,7 @@ exports.deleteFile = catchAsync(async (req, res, next) => {
     return next(new AppError('Please provide a bucketName and fileName', 404));
   }
 
-  const bucketPath = `./buckets/${bucketName.trim()}`;
+  const bucketPath = `./Buckets/${bucketName.trim()}`;
   const filePath = bucketPath + '/' + fileName.trim();
 
   let pathExists = await pathCheck(bucketPath);
