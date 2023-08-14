@@ -9,6 +9,7 @@ const userSchema = new Schema(
       type: String,
       required: [true, 'Please provide your email'],
       unique: true,
+      index: true,
       lowercase: true, //converts to lowercase
       validate: [
         /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
@@ -24,7 +25,7 @@ const userSchema = new Schema(
   },
   { timestamps: true },
 );
-userSchema.index({ email: 1 }, { unique: true });
+// userSchema.index({ email: 1 }, { unique: true });
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword,
